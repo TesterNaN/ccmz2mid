@@ -7,8 +7,6 @@
 > **专为虫虫钢琴(gangqinpu.com)设计的 CCMZ 加密格式转换工具**  
 > 将虫虫钢琴私有加密格式转换为标准 MIDI 文件，让音乐回归开放标准！
 
-**项目地址**: https://github.com/TesterNaN/ccmz2mid
-
 ## 🌟 项目亮点
 
 - 🔓 **完美解密**：支持虫虫钢琴 CCMZ v1/v2 双版本加密格式
