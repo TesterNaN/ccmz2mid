@@ -2,7 +2,7 @@
 
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Python](https://img.shields.io/badge/Python-3.6+-green.svg)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 
 > **专为虫虫钢琴(gangqinpu.com)设计的 CCMZ 加密格式转换工具**  
 > 将虫虫钢琴私有加密格式转换为标准 MIDI 文件，让音乐回归开放标准！
