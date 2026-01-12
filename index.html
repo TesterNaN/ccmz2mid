@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 虫虫钢琴CCMZ转MIDI在线工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --warning-color: #f8961e;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        h1 i {
+            color: var(--danger-color);
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--primary-color);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.secondary {
+            background: #6c757d;
+        }
+
+        .button.secondary:hover {
+            background: #545b62;
+        }
+
+        .button.success {
+            background: var(--success-color);
+        }
+
+        .button.success:hover {
+            background: #2bb2d9;
+        }
+
+        .button.danger {
+            background: var(--danger-color);
+        }
+
+        .button.danger:hover {
+            background: #e11570;
+        }
+
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .file-input-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 40px 20px;
+            border: 3px dashed #ddd;
+            border-radius: 8px;
+            text-align: center;
+            color: #666;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .file-input-label i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .file-selected {
+            border-color: var(--success-color);
+            background-color: rgba(76, 201, 240, 0.05);
+        }
+
+        .status-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .status-box h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-content {
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-success {
+            color: #28a745;
+        }
+
+        .log-error {
+            color: #dc3545;
+        }
+
+        .log-warning {
+            color: #ffc107;
+        }
+
+        .log-info {
+            color: #17a2b8;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .download-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--success-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+
+        .download-link:hover {
+            background: #2bb2d9;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(67, 97, 238, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 标签页样式 */
+        .tab-container {
+            margin-bottom: 25px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+        }
+        
+        .tab:hover {
+            color: var(--primary-color);
+        }
+        
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-music"></i> CCMZ 到 MIDI 转换工具</h1>
+            <p class="subtitle">在线将虫虫钢琴CCMZ文件转换为标准MIDI格式，无需安装任何软件，完全在浏览器中运行</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 输入区域 -->
+            <div class="card">
+                <h2><i class="fas fa-upload"></i> 输入源</h2>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="url-tab">URL下载</button>
+                        <button class="tab" data-tab="file-tab">本地文件</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="url-tab">
+                        <div class="input-group">
+                            <label for="url-input">CCMZ文件URL地址</label>
+                            <input type="text" id="url-input" placeholder="请输入CCMZ文件的URL地址...">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="output-name">输出MIDI文件名</label>
+                            <input type="text" id="output-name" value="output.mid" placeholder="输出文件名...">
+                        </div>
+                        
+                        <button class="button success" id="download-convert-btn">
+                            <span class="btn-text">下载并转换</span>
+                            <span class="spinner" style="display: none;"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content" id="file-tab">
+                        <div class="file-input-container">
+                            <input type="file" id="file-input" accept=".ccmz">
+                            <label for="file-input" class="file-input-label" id="file-input-label">
+                                <i class="fas fa-file-upload"></i>
+                                <span>点击选择或拖拽CCMZ文件到此区域</span>
+                                <div style="margin-top: 10px; font-size: 0.9rem;">支持.ccmz格式文件</div>
+                            </label>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="local-output-name">输出MIDI文件名</label>
+                            <input type="text" id="local-output-name" value="converted.mid" placeholder="输出文件名...">
+                        </div>
+                        
+                        <button class="button success" id="local-convert-btn">
+                            <span class="btn-text">转换本地文件</span>
+                            <span class="spinner" style="display: none;"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">准备中...</div>
+                </div>
+            </div>
+
+            <!-- 输出区域 -->
+            <div class="card">
+                <h2><i class="fas fa-download"></i> 输出结果</h2>
+                
+                <div id="status-box" class="status-box" style="display: none;">
+                    <h3><i class="fas fa-info-circle"></i> 处理状态</h3>
+                    <div class="status-content" id="status-content">
+                        <!-- 日志将在这里显示 -->
+                    </div>
+                </div>
+                
+                <div id="download-section" style="display: none; text-align: center; margin-top: 20px;">
+                    <a href="#" class="download-link" id="download-link" download>
+                        <i class="fas fa-download"></i> 下载MIDI文件
+                    </a>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="button secondary" id="clear-log-btn" style="width: auto; padding: 10px 20px;">
+                        <i class="fas fa-trash-alt"></i> 清除日志
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 CCMZ to MIDI Converter | 完全在浏览器中运行，无需服务器</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                注意：所有文件处理均在本地浏览器中进行，不会上传到任何服务器
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        //自动填充链接地址
+         document.querySelector("#url-input").value=new URLSearchParams(window.location.search).get("ccmz");
+        
+        // 核心转换逻辑
+        class CCMZConverter {
+            constructor() {
+                this.statusLog = [];
+                this.currentFile = null;
+            }
+            
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = {
+                    time: timestamp,
+                    message: message,
+                    type: type
+                };
+                
+                this.statusLog.push(logEntry);
+                this.updateStatusDisplay();
+                
+                console.log(`[${timestamp}] ${message}`);
+            }
+            
+            updateStatusDisplay() {
+                const statusContent = document.getElementById('status-content');
+                if (!statusContent) return;
+                
+                let html = '';
+                for (const entry of this.statusLog.slice(-30)) {
+                    html += `<div class="log-entry log-${entry.type}">[${entry.time}] ${entry.message}</div>`;
+                }
+                
+                statusContent.innerHTML = html;
+                statusContent.scrollTop = statusContent.scrollHeight;
+                
+                // 显示状态框
+                document.getElementById('status-box').style.display = 'block';
+            }
+            
+            updateProgress(percentage, message) {
+                const progressFill = document.getElementById('progress-fill');
+                const progressText = document.getElementById('progress-text');
+                const progressContainer = document.getElementById('progress-container');
+                
+                if (progressFill) progressFill.style.width = `${percentage}%`;
+                if (progressText) progressText.textContent = message;
+                if (progressContainer) progressContainer.style.display = 'block';
+            }
+            
+            async downloadCCMZ(url) {
+                this.log(`正在从 ${url} 下载 CCMZ 文件...`, 'info');
+                this.updateProgress(10, '开始下载文件...');
+                
+                try {
+                    // 添加时间戳防止缓存
+                    const cacheBusterUrl = url + (url.includes('?') ? '&' : '?') + '_=' + Date.now();
+                    
+                    const response = await fetch(cacheBusterUrl, {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                            'Accept': 'application/octet-stream'
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`下载失败，HTTP 状态码: ${response.status}`);
+                    }
+                    
+                    const data = await response.arrayBuffer();
+                    this.updateProgress(30, '文件下载完成');
+                    this.log(`✅ 下载完成: ${data.byteLength.toLocaleString()} 字节`, 'success');
+                    
+                    return new Uint8Array(data);
+                } catch (error) {
+                    this.log(`❌ 下载失败: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+            
+            extractCCMZ(ccmzData) {
+                this.log('🔍 正在提取 CCMZ 文件...', 'info');
+                this.updateProgress(40, '解密CCMZ文件...');
+                
+                try {
+                    // 第一个字节是版本号
+                    const version = ccmzData[0];
+                    this.log(`📊 CCMZ 版本: ${version}`, 'info');
+                    
+                    // 剩余数据
+                    const remaining = ccmzData.slice(1);
+                    
+                    let decrypted;
+                    if (version === 1) {
+                        // 版本1: 直接就是ZIP
+                        this.log('🔓 使用版本1解密（直接ZIP）', 'info');
+                        decrypted = remaining;
+                    } else if (version === 2) {
+                        // 版本2: 每个字节奇偶性转换
+                        this.log('🔓 使用版本2解密（奇偶转换）...', 'info');
+                        decrypted = new Uint8Array(remaining.length);
+                        
+                        for (let i = 0; i < remaining.length; i++) {
+                            const byte = remaining[i];
+                            if (byte % 2 === 0) { // 偶数
+                                decrypted[i] = byte + 1;
+                            } else { // 奇数
+                                decrypted[i] = byte - 1;
+                            }
+                        }
+                        
+                        this.log('✅ 解密完成', 'success');
+                    } else {
+                        throw new Error(`❌ 不支持的 CCMZ 版本: ${version}`);
+                    }
+                    
+                    this.updateProgress(60, '解压ZIP文件...');
+                    
+                    // 解压ZIP文件
+                    return this.extractZip(decrypted);
+                } catch (error) {
+                    this.log(`❌ 提取失败: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+            
+            async extractZip(zipData) {
+                try {
+                    // 使用JSZip库解压
+                    if (typeof JSZip === 'undefined') {
+                        throw new Error('JSZip库未加载，请检查网络连接');
+                    }
+                    
+                    const zip = await JSZip.loadAsync(zipData);
+                    const files = Object.keys(zip.files);
+                    
+                    this.log(`📦 找到 ${files.length} 个文件`, 'info');
+                    
+                    let jsonData = null;
+                    
+                    for (const filename of files) {
+                        const file = zip.files[filename];
+                        
+                        // 跳过目录
+                        if (file.dir) {
+                            continue;
+                        }
+                        
+                        // 查找 midi.json 文件
+                        if (filename.toLowerCase() === 'midi.json') {
+                            try {
+                                jsonData = await file.async('text');
+                                this.log(`🎯 找到音乐数据文件`, 'success');
+                                break;
+                            } catch (e) {
+                                this.log(`❌ 读取文件失败: ${e.message}`, 'error');
+                            }
+                        }
+                    }
+                    
+                    if (!jsonData) {
+                        throw new Error('❌ 未找到音乐数据');
+                    }
+                    
+                    this.updateProgress(80, '解析数据...');
+                    const parsedJson = JSON.parse(jsonData);
+                    this.log('✅ 数据解析完成', 'success');
+                    
+                    return parsedJson;
+                } catch (error) {
+                    this.log(`❌ 解压失败: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+            
+            jsonToMidi(jsonData) {
+                this.log('🔄 开始转换到 MIDI...', 'info');
+                this.updateProgress(90, '生成MIDI文件...');
+                
+                try {
+                    // 提取基本信息
+                    const ticksPerBeat = jsonData.division || 480;
+                    const events = jsonData.events || [];
+                    const tracks = jsonData.tracks || [];
+                    
+                    // 验证 PPQ 有效性
+                    const validTicksPerBeat = typeof ticksPerBeat === 'number' && ticksPerBeat > 0 ? ticksPerBeat : 480;
+                    
+                    // 简化的统计信息
+                    const trackCount = tracks.length || 1;
+                    this.log(`轨道数量: ${trackCount}`, 'info');
+                    
+                    // 创建MIDI数据
+                    const midiData = this.generateMidiWithMultipleTracks(jsonData, validTicksPerBeat);
+                    
+                    this.log(`✅ 转换完成`, 'success');
+                    this.updateProgress(100, '转换完成！');
+                    
+                    return midiData;
+                } catch (error) {
+                    this.log(`❌ MIDI转换失败: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+            
+            generateMidiWithMultipleTracks(jsonData, ticksPerBeat) {
+                // 创建多轨道MIDI文件
+                const tracks = jsonData.tracks || [];
+                const events = jsonData.events || [];
+                
+                // MIDI格式：如果轨道数>1则用格式1，否则用格式0
+                const midiFormat = tracks.length > 1 ? 1 : 0;
+                const trackCount = midiFormat === 0 ? 1 : tracks.length + 1; // 格式1需要额外的元数据轨道
+                
+                // 创建文件头
+                const header = this.createMidiHeader(midiFormat, trackCount, ticksPerBeat);
+                
+                // 收集所有轨道数据
+                const trackChunks = [];
+                
+                if (midiFormat === 1) {
+                    // 格式1：第一个轨道是元数据轨道
+                    const metaTrack = this.createMetaTrack(jsonData, ticksPerBeat);
+                    trackChunks.push(metaTrack);
+                    
+                    // 为每个音乐轨道创建轨道
+                    for (let i = 0; i < tracks.length; i++) {
+                        const musicTrack = this.createMusicTrack(jsonData, ticksPerBeat, i);
+                        trackChunks.push(musicTrack);
+                    }
+                } else {
+                    // 格式0：只有一个轨道，包含所有内容
+                    const singleTrack = this.createSingleTrack(jsonData, ticksPerBeat);
+                    trackChunks.push(singleTrack);
+                }
+                
+                // 计算总大小
+                let totalSize = header.length;
+                for (const chunk of trackChunks) {
+                    totalSize += chunk.length;
+                }
+                
+                // 合并所有数据
+                const midiData = new Uint8Array(totalSize);
+                let offset = 0;
+                
+                midiData.set(header, offset);
+                offset += header.length;
+                
+                for (const chunk of trackChunks) {
+                    midiData.set(chunk, offset);
+                    offset += chunk.length;
+                }
+                
+                return midiData;
+            }
+            
+            createMidiHeader(format, trackCount, ticksPerBeat) {
+                const buffer = new ArrayBuffer(14);
+                const view = new DataView(buffer);
+                
+                // MIDI文件头标识 "MThd"
+                view.setUint8(0, 0x4D); // M
+                view.setUint8(1, 0x54); // T
+                view.setUint8(2, 0x68); // h
+                view.setUint8(3, 0x64); // d
+                
+                // 头部长度 (6字节)
+                view.setUint32(4, 6, false);
+                
+                // 格式类型 (0: 单轨道, 1: 多轨道同步)
+                view.setUint16(8, format, false);
+                
+                // 轨道数量
+                view.setUint16(10, trackCount, false);
+                
+                // 时间精度 (ticks per beat)
+                view.setUint16(12, ticksPerBeat, false);
+                
+                return new Uint8Array(buffer);
+            }
+            
+            createMetaTrack(jsonData, ticksPerBeat) {
+                const events = [];
+                
+                // 添加速度事件
+                const tempos = jsonData.tempos || [];
+                if (tempos.length === 0) {
+                    // 默认速度 (120 BPM = 500000微秒/四分音符)
+                    events.push({
+                        deltaTime: 0,
+                        type: 'tempo',
+                        value: 500000
+                    });
+                } else {
+                    let lastTick = 0;
+                    for (const tempo of tempos) {
+                        const tick = tempo.tick || 0;
+                        const tempoValue = tempo.tempo || 500000;
+                        events.push({
+                            deltaTime: tick - lastTick,
+                            type: 'tempo',
+                            value: tempoValue
+                        });
+                        lastTick = tick;
+                    }
+                }
+                
+                // 添加拍号事件
+                const beatInfos = jsonData.beatInfos || [];
+                if (beatInfos.length === 0) {
+                    // 默认拍号 4/4
+                    events.push({
+                        deltaTime: 0,
+                        type: 'timeSignature',
+                        numerator: 4,
+                        denominator: 4
+                    });
+                } else {
+                    let lastTick = 0;
+                    for (const beat of beatInfos) {
+                        const tick = beat.tick || 0;
+                        const numerator = beat.beats || 4;
+                        const denominator = beat.beatsUnit || 4;
+                        events.push({
+                            deltaTime: tick - lastTick,
+                            type: 'timeSignature',
+                            numerator: numerator,
+                            denominator: denominator
+                        });
+                        lastTick = tick;
+                    }
+                }
+                
+                // 添加轨道结束事件
+                events.push({
+                    deltaTime: 0,
+                    type: 'endOfTrack'
+                });
+                
+                // 编码轨道数据
+                return this.encodeTrackChunk(events);
+            }
+            
+            createMusicTrack(jsonData, ticksPerBeat, trackIndex) {
+                const events = [];
+                const allEvents = jsonData.events || [];
+                const tracks = jsonData.tracks || [];
+                
+                // 获取当前轨道的配置
+                const trackConfig = tracks[trackIndex] || {};
+                const channel = trackConfig.channel || trackIndex;
+                const program = trackConfig.program || 0;
+                
+                // 添加音色变更事件
+                if (program >= 0) {
+                    events.push({
+                        deltaTime: 0,
+                        type: 'programChange',
+                        channel: channel % 16, // MIDI通道0-15
+                        program: program
+                    });
+                }
+                
+                // 过滤出当前轨道的事件
+                const trackEvents = allEvents.filter(event => {
+                    const eventTrack = event.track || 0;
+                    return eventTrack === trackIndex;
+                });
+                
+                // 按tick排序
+                trackEvents.sort((a, b) => (a.tick || 0) - (b.tick || 0));
+                
+                // 处理事件
+                let lastTick = 0;
+                
+                for (const event of trackEvents) {
+                    const tick = event.tick || 0;
+                    const delta = tick - lastTick;
+                    const eventData = event.event || [];
+                    
+                    if (eventData.length >= 3) {
+                        const status = eventData[0];
+                        const msgType = status & 0xF0;
+                        const eventChannel = status & 0x0F;
+                        
+                        // 使用配置的通道，但事件中可能指定了通道
+                        const finalChannel = eventChannel !== 0 ? eventChannel : channel % 16;
+                        
+                        if (msgType === 0x90 || msgType === 0x80) {
+                            // Note On 或 Note Off
+                            const note = eventData[1];
+                            const velocity = eventData[2];
+                            
+                            if (msgType === 0x90 && velocity > 0) {
+                                // Note On
+                                events.push({
+                                    deltaTime: delta,
+                                    type: 'noteOn',
+                                    channel: finalChannel,
+                                    note: note,
+                                    velocity: velocity
+                                });
+                            } else {
+                                // Note Off 或 velocity=0的Note On
+                                events.push({
+                                    deltaTime: delta,
+                                    type: 'noteOff',
+                                    channel: finalChannel,
+                                    note: note,
+                                    velocity: 0
+                                });
+                            }
+                            
+                            lastTick = tick;
+                        }
+                    }
+                }
+                
+                // 添加轨道结束事件
+                events.push({
+                    deltaTime: 0,
+                    type: 'endOfTrack'
+                });
+                
+                // 编码轨道数据
+                return this.encodeTrackChunk(events);
+            }
+            
+            createSingleTrack(jsonData, ticksPerBeat) {
+                const events = [];
+                
+                // 添加速度事件
+                const tempos = jsonData.tempos || [];
+                if (tempos.length === 0) {
+                    // 默认速度 (120 BPM = 500000微秒/四分音符)
+                    events.push({
+                        deltaTime: 0,
+                        type: 'tempo',
+                        value: 500000
+                    });
+                } else {
+                    let lastTick = 0;
+                    for (const tempo of tempos) {
+                        const tick = tempo.tick || 0;
+                        const tempoValue = tempo.tempo || 500000;
+                        events.push({
+                            deltaTime: tick - lastTick,
+                            type: 'tempo',
+                            value: tempoValue
+                        });
+                        lastTick = tick;
+                    }
+                }
+                
+                // 添加拍号事件
+                const beatInfos = jsonData.beatInfos || [];
+                if (beatInfos.length === 0) {
+                    // 默认拍号 4/4
+                    events.push({
+                        deltaTime: 0,
+                        type: 'timeSignature',
+                        numerator: 4,
+                        denominator: 4
+                    });
+                } else {
+                    let lastTick = 0;
+                    for (const beat of beatInfos) {
+                        const tick = beat.tick || 0;
+                        const numerator = beat.beats || 4;
+                        const denominator = beat.beatsUnit || 4;
+                        events.push({
+                            deltaTime: tick - lastTick,
+                            type: 'timeSignature',
+                            numerator: numerator,
+                            denominator: denominator
+                        });
+                        lastTick = tick;
+                    }
+                }
+                
+                // 添加音色变更事件
+                const tracks = jsonData.tracks || [];
+                if (tracks.length > 0) {
+                    const track = tracks[0];
+                    if (track.program >= 0) {
+                        events.push({
+                            deltaTime: 0,
+                            type: 'programChange',
+                            channel: track.channel || 0,
+                            program: track.program
+                        });
+                    }
+                }
+                
+                // 处理所有事件（不分轨道）
+                const allEvents = jsonData.events || [];
+                allEvents.sort((a, b) => (a.tick || 0) - (b.tick || 0));
+                
+                let lastTick = 0;
+                
+                for (const event of allEvents) {
+                    const tick = event.tick || 0;
+                    const delta = tick - lastTick;
+                    const eventData = event.event || [];
+                    
+                    if (eventData.length >= 3) {
+                        const status = eventData[0];
+                        const msgType = status & 0xF0;
+                        const channel = status & 0x0F;
+                        
+                        if (msgType === 0x90 || msgType === 0x80) {
+                            // Note On 或 Note Off
+                            const note = eventData[1];
+                            const velocity = eventData[2];
+                            
+                            if (msgType === 0x90 && velocity > 0) {
+                                // Note On
+                                events.push({
+                                    deltaTime: delta,
+                                    type: 'noteOn',
+                                    channel: channel,
+                                    note: note,
+                                    velocity: velocity
+                                });
+                            } else {
+                                // Note Off 或 velocity=0的Note On
+                                events.push({
+                                    deltaTime: delta,
+                                    type: 'noteOff',
+                                    channel: channel,
+                                    note: note,
+                                    velocity: 0
+                                });
+                            }
+                            
+                            lastTick = tick;
+                        }
+                    }
+                }
+                
+                // 添加轨道结束事件
+                events.push({
+                    deltaTime: 0,
+                    type: 'endOfTrack'
+                });
+                
+                // 编码轨道数据
+                return this.encodeTrackChunk(events);
+            }
+            
+            encodeTrackChunk(events) {
+                // 首先计算需要的总大小
+                let trackDataSize = 0;
+                
+                for (const event of events) {
+                    // delta time的大小
+                    trackDataSize += this.calculateVarIntSize(event.deltaTime || 0);
+                    
+                    // 事件数据的大小
+                    switch (event.type) {
+                        case 'tempo':
+                            trackDataSize += 6; // FF 51 03 + 3字节tempo
+                            break;
+                        case 'timeSignature':
+                            trackDataSize += 7; // FF 58 04 + 4字节
+                            break;
+                        case 'programChange':
+                            trackDataSize += 2; // Cx + program
+                            break;
+                        case 'noteOn':
+                            trackDataSize += 3; // 9x + note + velocity
+                            break;
+                        case 'noteOff':
+                            trackDataSize += 3; // 8x + note + velocity
+                            break;
+                        case 'endOfTrack':
+                            trackDataSize += 3; // FF 2F 00
+                            break;
+                    }
+                }
+                
+                // 创建轨道块缓冲区 (8字节头 + 轨道数据)
+                const buffer = new ArrayBuffer(8 + trackDataSize);
+                const view = new DataView(buffer);
+                let offset = 0;
+                
+                // 写入轨道头 "MTrk"
+                view.setUint8(offset++, 0x4D); // M
+                view.setUint8(offset++, 0x54); // T
+                view.setUint8(offset++, 0x72); // r
+                view.setUint8(offset++, 0x6B); // k
+                
+                // 写入轨道长度
+                view.setUint32(offset, trackDataSize, false);
+                offset += 4;
+                
+                // 写入事件
+                for (const event of events) {
+                    // 写入delta time
+                    offset = this.writeVarInt(view, offset, event.deltaTime || 0);
+                    
+                    switch (event.type) {
+                        case 'tempo':
+                            view.setUint8(offset++, 0xFF);
+                            view.setUint8(offset++, 0x51);
+                            view.setUint8(offset++, 0x03);
+                            const tempo = event.value || 500000;
+                            view.setUint8(offset++, (tempo >> 16) & 0xFF);
+                            view.setUint8(offset++, (tempo >> 8) & 0xFF);
+                            view.setUint8(offset++, tempo & 0xFF);
+                            break;
+                            
+                        case 'timeSignature':
+                            view.setUint8(offset++, 0xFF);
+                            view.setUint8(offset++, 0x58);
+                            view.setUint8(offset++, 0x04);
+                            view.setUint8(offset++, event.numerator || 4);
+                            
+                            // 分母是2的幂次，4=2^2, 2=2^1, 8=2^3, 16=2^4
+                            let denominatorPower = 2;
+                            if (event.denominator === 2) denominatorPower = 1;
+                            else if (event.denominator === 8) denominatorPower = 3;
+                            else if (event.denominator === 16) denominatorPower = 4;
+                            
+                            view.setUint8(offset++, denominatorPower);
+                            view.setUint8(offset++, 24); // MIDI时钟每四分音符的滴答数
+                            view.setUint8(offset++, 8);  // 32分音符的数量
+                            break;
+                            
+                        case 'programChange':
+                            view.setUint8(offset++, 0xC0 | (event.channel || 0));
+                            view.setUint8(offset++, event.program || 0);
+                            break;
+                            
+                        case 'noteOn':
+                            view.setUint8(offset++, 0x90 | (event.channel || 0));
+                            view.setUint8(offset++, event.note || 60);
+                            view.setUint8(offset++, event.velocity || 64);
+                            break;
+                            
+                        case 'noteOff':
+                            view.setUint8(offset++, 0x80 | (event.channel || 0));
+                            view.setUint8(offset++, event.note || 60);
+                            view.setUint8(offset++, 0);
+                            break;
+                            
+                        case 'endOfTrack':
+                            view.setUint8(offset++, 0xFF);
+                            view.setUint8(offset++, 0x2F);
+                            view.setUint8(offset++, 0x00);
+                            break;
+                    }
+                }
+                
+                return new Uint8Array(buffer);
+            }
+            
+            calculateVarIntSize(value) {
+                value = Math.floor(value);
+                let size = 0;
+                
+                do {
+                    value >>= 7;
+                    size++;
+                } while (value > 0);
+                
+                return size;
+            }
+            
+            writeVarInt(view, offset, value) {
+                value = Math.floor(value);
+                const bytes = [];
+                
+                do {
+                    let byte = value & 0x7F;
+                    value >>= 7;
+                    if (bytes.length > 0) byte |= 0x80;
+                    bytes.push(byte);
+                } while (value > 0);
+                
+                for (let i = bytes.length - 1; i >= 0; i--) {
+                    view.setUint8(offset++, bytes[i]);
+                }
+                
+                return offset;
+            }
+            
+            async convertFromURL(url, outputFilename) {
+                try {
+                    this.resetState();
+                    this.log('开始从URL转换CCMZ文件...', 'info');
+                    
+                    // 下载CCMZ文件
+                    const ccmzData = await this.downloadCCMZ(url);
+                    
+                    // 提取和转换
+                    const jsonData = await this.extractCCMZ(ccmzData);
+                    const midiData = this.jsonToMidi(jsonData);
+                    
+                    // 保存文件
+                    this.saveMidiFile(midiData, outputFilename);
+                    
+                    return true;
+                } catch (error) {
+                    this.log(`转换失败: ${error.message}`, 'error');
+                    return false;
+                }
+            }
+            
+            async convertFromFile(file, outputFilename) {
+                try {
+                    this.resetState();
+                    this.log(`开始转换本地文件: ${file.name}`, 'info');
+                    
+                    // 读取文件
+                    const arrayBuffer = await file.arrayBuffer();
+                    const ccmzData = new Uint8Array(arrayBuffer);
+                    
+                    this.updateProgress(20, '文件读取完成');
+                    
+                    // 提取和转换
+                    const jsonData = await this.extractCCMZ(ccmzData);
+                    const midiData = this.jsonToMidi(jsonData);
+                    
+                    // 保存文件
+                    this.saveMidiFile(midiData, outputFilename);
+                    
+                    return true;
+                } catch (error) {
+                    this.log(`转换失败: ${error.message}`, 'error');
+                    return false;
+                }
+            }
+            
+            saveMidiFile(midiData, filename) {
+                // 创建Blob并下载
+                const blob = new Blob([midiData], { type: 'audio/midi' });
+                const url = URL.createObjectURL(blob);
+                
+                // 更新下载链接
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                
+                // 显示下载链接
+                document.getElementById('download-section').style.display = 'block';
+                
+                this.log(`✅ MIDI文件已生成: ${filename}`, 'success');
+                this.log(`文件大小: ${midiData.length.toLocaleString()} 字节`, 'info');
+            }
+            
+            resetState() {
+                this.statusLog = [];
+                this.updateProgress(0, '准备中...');
+                
+                // 隐藏之前的下载链接
+                document.getElementById('download-section').style.display = 'none';
+            }
+        }
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', function() {
+            const converter = new CCMZConverter();
+            
+            // 标签切换功能
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 移除所有active类
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // 添加active类
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // 文件拖放功能
+            const fileInput = document.getElementById('file-input');
+            const fileInputLabel = document.getElementById('file-input-label');
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const fileName = this.files[0].name;
+                    fileInputLabel.innerHTML = `
+                        <i class="fas fa-file-music" style="color: #4cc9f0;"></i>
+                        <span>已选择文件: ${fileName}</span>
+                        <div style="margin-top: 10px; font-size: 0.9rem;">点击重新选择</div>
+                    `;
+                    fileInputLabel.classList.add('file-selected');
+                }
+            });
+            
+            // 拖放事件
+            fileInputLabel.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#4361ee';
+                this.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+            });
+            
+            fileInputLabel.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+            });
+            
+            fileInputLabel.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    const file = e.dataTransfer.files[0];
+                    if (file.name.toLowerCase().endsWith('.ccmz')) {
+                        // 创建DataTransfer对象来设置文件
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        fileInput.files = dataTransfer.files;
+                        
+                        // 触发change事件
+                        fileInput.dispatchEvent(new Event('change'));
+                    } else {
+                        alert('请选择.ccmz格式的文件');
+                    }
+                }
+            });
+            
+            // 从URL下载并转换
+            document.getElementById('download-convert-btn').addEventListener('click', async function() {
+                const url = document.getElementById('url-input').value.trim();
+                const outputName = document.getElementById('output-name').value.trim() || 'output.mid';
+                
+                if (!url) {
+                    alert('请输入CCMZ文件的URL地址');
+                    return;
+                }
+                
+                // 显示加载状态
+                const btnText = this.querySelector('.btn-text');
+                const spinner = this.querySelector('.spinner');
+                btnText.textContent = '转换中...';
+                spinner.style.display = 'inline-block';
+                this.disabled = true;
+                
+                try {
+                    await converter.convertFromURL(url, outputName);
+                } catch (error) {
+                    console.error('转换错误:', error);
+                } finally {
+                    // 恢复按钮状态
+                    btnText.textContent = '下载并转换';
+                    spinner.style.display = 'none';
+                    this.disabled = false;
+                }
+            });
+            
+            // 转换本地文件
+            document.getElementById('local-convert-btn').addEventListener('click', async function() {
+                const file = fileInput.files[0];
+                const outputName = document.getElementById('local-output-name').value.trim() || 'converted.mid';
+                
+                if (!file) {
+                    alert('请选择CCMZ文件');
+                    return;
+                }
+                
+                // 显示加载状态
+                const btnText = this.querySelector('.btn-text');
+                const spinner = this.querySelector('.spinner');
+                btnText.textContent = '转换中...';
+                spinner.style.display = 'inline-block';
+                this.disabled = true;
+                
+                try {
+                    await converter.convertFromFile(file, outputName);
+                } catch (error) {
+                    console.error('转换错误:', error);
+                } finally {
+                    // 恢复按钮状态
+                    btnText.textContent = '转换本地文件';
+                    spinner.style.display = 'none';
+                    this.disabled = false;
+                }
+            });
+            
+            // 清除日志
+            document.getElementById('clear-log-btn').addEventListener('click', function() {
+                converter.statusLog = [];
+                converter.updateStatusDisplay();
+            });
+            
+            // 初始化日志显示
+            converter.log('CCMZ 到 MIDI 转换工具已就绪', 'info');
+            converter.log('选择输入源开始转换', 'info');
+        });
+    </script>
+    
+    <!-- 引入JSZip库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>
