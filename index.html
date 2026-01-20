@@ -2,202 +2,256 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
-    <title>🎵 虫虫钢琴CCMZ转MIDI在线工具</title>
+    <title>虫虫钢琴CCMZ转MIDI在线工具</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* M3 Design System 颜色变量 */
+        :root {
+            --primary: #6750A4;
+            --primary-container: #EADDFF;
+            --secondary: #625B71;
+            --secondary-container: #E8DEF8;
+            --tertiary: #7D5260;
+            --tertiary-container: #FFD8E4;
+            --surface: #FFFBFE;
+            --surface-variant: #E7E0EC;
+            --outline: #79747E;
+            --outline-variant: #CAC4D0;
+            --error: #B3261E;
+            --error-container: #F9DEDC;
+            --success: #0D6E42;
+            --success-container: #A7F0BA;
+            --on-primary: #FFFFFF;
+            --on-primary-container: #21005D;
+            --on-secondary: #FFFFFF;
+            --on-secondary-container: #1D192B;
+            --on-surface: #1C1B1F;
+            --on-surface-variant: #49454F;
+            --on-error: #FFFFFF;
+            --on-error-container: #410E0B;
+            --on-success: #FFFFFF;
+            --on-success-container: #00210B;
+            
+            /* 字体变量 - 桌面端更大 */
+            --font-family: 'Roboto', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            --font-size-xs: 0.75rem;   /* 12px */
+            --font-size-sm: 0.875rem;  /* 14px */
+            --font-size-md: 1rem;      /* 16px */
+            --font-size-lg: 1.125rem;  /* 18px */
+            --font-size-xl: 1.25rem;   /* 20px */
+            --font-size-2xl: 1.5rem;   /* 24px */
+            --font-size-3xl: 1.875rem; /* 30px */
+            --font-size-4xl: 2.25rem;  /* 36px - 桌面端标题 */
+            
+            /* 间距变量 - 桌面端更大 */
+            --space-xs: 0.25rem;   /* 4px */
+            --space-sm: 0.5rem;    /* 8px */
+            --space-md: 1rem;      /* 16px */
+            --space-lg: 1.5rem;    /* 24px */
+            --space-xl: 2rem;      /* 32px */
+            --space-2xl: 3rem;     /* 48px */
+            --space-3xl: 4rem;     /* 64px - 桌面端 */
+            
+            /* 圆角变量 */
+            --radius-xs: 4px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* 高度变量 - 移动端友好 */
+            --touch-target-min: 44px;
+            --touch-target-md: 48px;
+            --touch-target-lg: 56px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --success-color: #4cc9f0;
-            --danger-color: #f72585;
-            --warning-color: #f8961e;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --border-radius: 12px;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark-color);
-            line-height: 1.6;
+            font-family: var(--font-family);
+            font-size: var(--font-size-md);
+            line-height: 1.5;
+            color: var(--on-surface);
+            background-color: var(--surface);
             min-height: 100vh;
-            padding: 20px;
+            padding: var(--space-md);
         }
 
+        /* 移动端容器 */
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
         }
 
+        /* 头部样式 */
         header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
+            margin-bottom: var(--space-xl);
+            padding: var(--space-lg);
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--outline-variant);
         }
 
         h1 {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: var(--font-size-2xl);
+            font-weight: 400;
+            color: var(--on-surface);
+            margin-bottom: var(--space-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: var(--space-sm);
+            line-height: 1.2;
         }
 
         h1 i {
-            color: var(--danger-color);
+            color: var(--primary);
         }
 
         .subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
+            font-size: var(--font-size-sm);
+            color: var(--on-surface-variant);
+            line-height: 1.4;
         }
 
+        /* 主内容区域 - 移动端单列布局 */
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
         }
 
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        /* 卡片样式 */
         .card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--outline-variant);
+            padding: var(--space-lg);
+            position: relative;
         }
 
         .card h2 {
-            color: var(--secondary-color);
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            font-size: var(--font-size-xl);
+            font-weight: 400;
+            color: var(--on-surface);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--outline-variant);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: var(--space-sm);
         }
 
         .card h2 i {
-            color: var(--primary-color);
+            color: var(--primary);
         }
 
+        /* 输入组样式 */
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: var(--space-lg);
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+            color: var(--on-surface-variant);
+            font-size: var(--font-size-sm);
         }
 
         .input-group input,
         .input-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--outline);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-md);
+            font-family: inherit;
+            background-color: var(--surface);
+            color: var(--on-surface);
+            min-height: var(--touch-target-md);
         }
 
         .input-group input:focus,
         .input-group textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            border-color: var(--primary);
         }
 
+        /* 按钮样式 */
         .button {
-            display: inline-block;
-            padding: 14px 28px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
+            display: block;
             width: 100%;
-            margin-top: 10px;
-        }
-
-        .button:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
+            padding: var(--space-md) var(--space-lg);
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-md);
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            min-height: var(--touch-target-lg);
+            transition: none;
+            position: relative;
+            overflow: hidden;
         }
 
         .button:active {
-            transform: translateY(0);
-        }
-
-        .button.secondary {
-            background: #6c757d;
-        }
-
-        .button.secondary:hover {
-            background: #545b62;
-        }
-
-        .button.success {
-            background: var(--success-color);
-        }
-
-        .button.success:hover {
-            background: #2bb2d9;
-        }
-
-        .button.danger {
-            background: var(--danger-color);
-        }
-
-        .button.danger:hover {
-            background: #e11570;
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
         }
 
         .button:disabled {
-            background: #ccc;
+            background-color: var(--outline-variant);
+            color: var(--on-surface-variant);
             cursor: not-allowed;
-            transform: none;
         }
 
+        .button.secondary {
+            background-color: var(--secondary-container);
+            color: var(--on-secondary-container);
+        }
+
+        .button.secondary:active {
+            background-color: var(--secondary);
+            color: var(--on-secondary);
+        }
+
+        .button.success {
+            background-color: var(--success);
+            color: var(--on-success);
+        }
+
+        .button.success:active {
+            background-color: var(--success-container);
+            color: var(--on-success-container);
+        }
+
+        .button.danger {
+            background-color: var(--error);
+            color: var(--on-error);
+        }
+
+        .button.danger:active {
+            background-color: var(--error-container);
+            color: var(--on-error-container);
+        }
+
+        /* 文件输入容器 */
         .file-input-container {
             position: relative;
-            overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: var(--space-lg);
         }
 
         .file-input-container input[type="file"] {
@@ -212,63 +266,79 @@
 
         .file-input-label {
             display: block;
-            padding: 40px 20px;
-            border: 3px dashed #ddd;
-            border-radius: 8px;
+            padding: var(--space-xl);
+            border: 2px dashed var(--outline);
+            border-radius: var(--radius-md);
             text-align: center;
-            color: #666;
-            transition: var(--transition);
+            color: var(--on-surface-variant);
             cursor: pointer;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .file-input-label:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+        .file-input-label:active {
+            border-color: var(--primary);
+            background-color: var(--primary-container);
         }
 
         .file-input-label i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+            color: var(--primary);
         }
 
         .file-selected {
-            border-color: var(--success-color);
-            background-color: rgba(76, 201, 240, 0.05);
+            border-color: var(--success);
+            background-color: var(--success-container);
         }
 
+        /* 状态框 - 优化长文本显示 */
         .status-box {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            background-color: var(--surface-variant);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary);
+            display: none;
         }
 
         .status-box h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
+            margin-bottom: var(--space-sm);
+            color: var(--on-surface-variant);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: var(--space-sm);
+            font-size: var(--font-size-md);
+            font-weight: 500;
         }
 
         .status-content {
-            max-height: 300px;
+            max-height: 300px; /* 桌面端增加高度 */
             overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            padding: 15px;
-            background: white;
-            border-radius: 5px;
-            border: 1px solid #eee;
+            font-family: 'Roboto Mono', monospace;
+            font-size: var(--font-size-sm);
+            line-height: 1.4;
+            padding: var(--space-sm);
+            background-color: var(--surface);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--outline-variant);
+            /* 关键改进：处理长URL和长文本 */
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .log-entry {
-            margin-bottom: 8px;
-            padding: 5px 0;
-            border-bottom: 1px dashed #f0f0f0;
+            margin-bottom: var(--space-xs);
+            padding-bottom: var(--space-xs);
+            border-bottom: 1px solid var(--outline-variant);
+            /* 确保长URL可以换行 */
+            word-break: break-all;
+            white-space: normal;
         }
 
         .log-entry:last-child {
@@ -276,119 +346,118 @@
         }
 
         .log-success {
-            color: #28a745;
+            color: var(--success);
         }
 
         .log-error {
-            color: #dc3545;
+            color: var(--error);
         }
 
         .log-warning {
-            color: #ffc107;
+            color: var(--tertiary);
         }
 
         .log-info {
-            color: #17a2b8;
+            color: var(--secondary);
         }
 
+        /* 进度条容器 */
         .progress-container {
-            margin-top: 20px;
+            margin-top: var(--space-lg);
             display: none;
         }
 
         .progress-bar {
             width: 100%;
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
+            height: 8px;
+            background-color: var(--surface-variant);
+            border-radius: var(--radius-full);
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: var(--space-sm);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+            background-color: var(--primary);
             width: 0%;
-            transition: width 0.3s ease;
         }
 
         .progress-text {
             text-align: center;
-            font-size: 0.9rem;
-            color: #666;
+            font-size: var(--font-size-sm);
+            color: var(--on-surface-variant);
         }
 
+        /* 下载链接 */
         .download-link {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--success-color);
-            color: white;
+            display: block;
+            padding: var(--space-md) var(--space-lg);
+            background-color: var(--success);
+            color: var(--on-success);
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: var(--transition);
-            margin-top: 15px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            text-align: center;
+            min-height: var(--touch-target-lg);
         }
 
-        .download-link:hover {
-            background: #2bb2d9;
-            transform: translateY(-2px);
+        .download-link:active {
+            background-color: var(--success-container);
+            color: var(--on-success-container);
         }
 
+        /* 页脚 */
         footer {
             text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9rem;
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+            color: var(--on-surface-variant);
+            font-size: var(--font-size-sm);
+            border-top: 1px solid var(--outline-variant);
         }
 
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(67, 97, 238, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
         /* 标签页样式 */
         .tab-container {
-            margin-bottom: 25px;
+            margin-bottom: var(--space-lg);
         }
         
         .tabs {
             display: flex;
-            border-bottom: 2px solid #f0f0f0;
-            margin-bottom: 20px;
+            border-bottom: 1px solid var(--outline-variant);
+            margin-bottom: var(--space-lg);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
         }
         
         .tab {
-            padding: 12px 24px;
+            flex: 1;
+            min-width: 120px;
+            padding: var(--space-md) var(--space-sm);
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: var(--font-size-md);
             cursor: pointer;
-            color: #666;
+            color: var(--on-surface-variant);
             border-bottom: 3px solid transparent;
-            transition: var(--transition);
-            flex: 1;
+            white-space: nowrap;
+            min-height: var(--touch-target-min);
             text-align: center;
         }
         
-        .tab:hover {
-            color: var(--primary-color);
+        .tab:active {
+            color: var(--primary);
+            background-color: var(--primary-container);
         }
         
         .tab.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
-            font-weight: 600;
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 500;
         }
         
         .tab-content {
@@ -398,13 +467,249 @@
         .tab-content.active {
             display: block;
         }
+
+        /* 工具按钮组 */
+        .tool-buttons {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
+        }
+
+        .tool-buttons .button {
+            flex: 1;
+            width: auto;
+        }
+
+        /* 桌面端大屏幕优化 */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                padding: var(--space-xl) var(--space-2xl);
+            }
+            
+            h1 {
+                font-size: var(--font-size-4xl);
+                margin-bottom: var(--space-md);
+            }
+            
+            .subtitle {
+                font-size: var(--font-size-lg);
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-2xl);
+                margin-bottom: var(--space-2xl);
+            }
+            
+            .card {
+                padding: var(--space-xl);
+                border-radius: var(--radius-xl);
+            }
+            
+            .card h2 {
+                font-size: var(--font-size-2xl);
+                margin-bottom: var(--space-xl);
+                padding-bottom: var(--space-md);
+            }
+            
+            .input-group {
+                margin-bottom: var(--space-xl);
+            }
+            
+            .input-group label {
+                font-size: var(--font-size-md);
+                margin-bottom: var(--space-sm);
+            }
+            
+            .input-group input,
+            .input-group textarea {
+                padding: var(--space-md) var(--space-lg);
+                font-size: var(--font-size-lg);
+                min-height: var(--touch-target-lg);
+            }
+            
+            .button {
+                padding: var(--space-lg) var(--space-xl);
+                font-size: var(--font-size-lg);
+                min-height: 60px;
+                border-radius: var(--radius-lg);
+            }
+            
+            .file-input-label {
+                padding: var(--space-2xl);
+                min-height: 180px;
+                border-radius: var(--radius-lg);
+            }
+            
+            .file-input-label i {
+                font-size: 3.5rem;
+                margin-bottom: var(--space-md);
+            }
+            
+            .status-content {
+                max-height: 400px;
+                font-size: var(--font-size-md);
+                padding: var(--space-md);
+                border-radius: var(--radius-md);
+            }
+            
+            .status-box {
+                padding: var(--space-lg);
+                border-radius: var(--radius-lg);
+            }
+            
+            .status-box h3 {
+                font-size: var(--font-size-lg);
+                margin-bottom: var(--space-md);
+            }
+            
+            .progress-container {
+                margin-top: var(--space-xl);
+            }
+            
+            .progress-bar {
+                height: 10px;
+                border-radius: var(--radius-full);
+            }
+            
+            .progress-text {
+                font-size: var(--font-size-md);
+            }
+            
+            .download-link {
+                padding: var(--space-lg) var(--space-xl);
+                font-size: var(--font-size-lg);
+                min-height: 60px;
+                border-radius: var(--radius-lg);
+            }
+            
+            .tool-buttons {
+                gap: var(--space-md);
+                margin-top: var(--space-xl);
+            }
+            
+            .tool-buttons .button {
+                padding: var(--space-md) var(--space-lg);
+                font-size: var(--font-size-md);
+                min-height: var(--touch-target-lg);
+            }
+            
+            footer {
+                margin-top: var(--space-2xl);
+                padding: var(--space-xl);
+                font-size: var(--font-size-md);
+            }
+            
+            .tabs {
+                margin-bottom: var(--space-xl);
+            }
+            
+            .tab {
+                padding: var(--space-lg) var(--space-md);
+                font-size: var(--font-size-lg);
+                min-height: var(--touch-target-lg);
+            }
+        }
+
+        /* 平板端优化 */
+        @media (min-width: 640px) and (max-width: 767px) {
+            .container {
+                max-width: 100%;
+                padding: var(--space-lg);
+            }
+            
+            h1 {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .subtitle {
+                font-size: var(--font-size-md);
+            }
+            
+            .card {
+                padding: var(--space-xl);
+            }
+            
+            .card h2 {
+                font-size: var(--font-size-xl);
+            }
+        }
+
+        /* 超小屏幕优化 */
+        @media (max-width: 360px) {
+            body {
+                padding: var(--space-sm);
+            }
+            
+            header, .card {
+                padding: var(--space-md);
+            }
+            
+            h1 {
+                font-size: var(--font-size-xl);
+                flex-direction: column;
+                gap: var(--space-xs);
+            }
+            
+            .file-input-label {
+                padding: var(--space-lg);
+                min-height: 120px;
+            }
+            
+            .file-input-label i {
+                font-size: 2rem;
+            }
+            
+            .status-content {
+                font-size: var(--font-size-xs);
+                max-height: 150px;
+            }
+        }
+
+        /* 加载指示器 */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--outline-variant);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-left: var(--space-sm);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 移动端底部安全区域 */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(var(--space-md), env(safe-area-inset-left));
+                padding-right: max(var(--space-md), env(safe-area-inset-right));
+                padding-bottom: max(var(--space-md), env(safe-area-inset-bottom));
+            }
+            
+            @media (min-width: 768px) {
+                body {
+                    padding-left: max(var(--space-xl), env(safe-area-inset-left));
+                    padding-right: max(var(--space-xl), env(safe-area-inset-right));
+                    padding-bottom: max(var(--space-xl), env(safe-area-inset-bottom));
+                }
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-music"></i> CCMZ 到 MIDI 转换工具</h1>
-            <p class="subtitle">在线将虫虫钢琴CCMZ文件转换为标准MIDI格式，无需安装任何软件，完全在浏览器中运行</p>
+            <h1>CCMZ 转 MIDI 工具</h1>
+            <p class="subtitle">在线将虫虫钢琴CCMZ文件转换为标准MIDI格式，完全在浏览器中运行，保护隐私</p>
         </header>
 
         <div class="main-content">
@@ -440,8 +745,8 @@
                             <input type="file" id="file-input" accept=".ccmz">
                             <label for="file-input" class="file-input-label" id="file-input-label">
                                 <i class="fas fa-file-upload"></i>
-                                <span>点击选择或拖拽CCMZ文件到此区域</span>
-                                <div style="margin-top: 10px; font-size: 0.9rem;">支持.ccmz格式文件</div>
+                                <span>点击选择或拖拽CCMZ文件</span>
+                                <div style="margin-top: var(--space-xs); font-size: var(--font-size-xs);">支持.ccmz格式文件</div>
                             </label>
                         </div>
                         
@@ -469,38 +774,75 @@
             <div class="card">
                 <h2><i class="fas fa-download"></i> 输出结果</h2>
                 
-                <div id="status-box" class="status-box" style="display: none;">
+                <div id="status-box" class="status-box">
                     <h3><i class="fas fa-info-circle"></i> 处理状态</h3>
                     <div class="status-content" id="status-content">
                         <!-- 日志将在这里显示 -->
                     </div>
                 </div>
                 
-                <div id="download-section" style="display: none; text-align: center; margin-top: 20px;">
+                <div id="download-section" style="display: none; margin-top: var(--space-lg);">
                     <a href="#" class="download-link" id="download-link" download>
                         <i class="fas fa-download"></i> 下载MIDI文件
                     </a>
                 </div>
                 
-                <div style="margin-top: 20px; text-align: center;">
-                    <button class="button secondary" id="clear-log-btn" style="width: auto; padding: 10px 20px;">
+                <div class="tool-buttons">
+                    <button class="button secondary" id="clear-log-btn">
                         <i class="fas fa-trash-alt"></i> 清除日志
+                    </button>
+                    <button class="button secondary" id="copy-log-btn">
+                        <i class="fas fa-copy"></i> 复制日志
                     </button>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>© 2025 CCMZ to MIDI Converter | 完全在浏览器中运行，无需服务器</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">
+            <p>© 2025 CCMZ 转 MIDI 工具 | 完全在浏览器中运行，无需服务器</p>
+            <p style="margin-top: var(--space-sm); font-size: var(--font-size-xs);">
                 注意：所有文件处理均在本地浏览器中进行，不会上传到任何服务器
             </p>
         </footer>
     </div>
 
     <script>
-        //自动填充链接地址
-         document.querySelector("#url-input").value=new URLSearchParams(window.location.search).get("ccmz");
+        // 自动填充URL参数
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ccmzUrl = urlParams.get('ccmz');
+            if (ccmzUrl) {
+                document.querySelector("#url-input").value = ccmzUrl;
+            }
+        });
+        
+        // URL处理工具函数
+        const URLUtils = {
+            // 简化URL显示 - 只在日志中显示简短信息
+            formatForLog: function(url) {
+                try {
+                    // 提取文件名
+                    const urlObj = new URL(url);
+                    const pathname = urlObj.pathname;
+                    const lastSlashIndex = pathname.lastIndexOf('/');
+                    if (lastSlashIndex !== -1 && lastSlashIndex < pathname.length - 1) {
+                        const filename = pathname.substring(lastSlashIndex + 1);
+                        const hostname = urlObj.hostname.replace('www.', '');
+                        return `${hostname}/.../${filename}`;
+                    }
+                } catch (e) {
+                    // 如果URL无效，尝试直接提取
+                    const lastSlashIndex = url.lastIndexOf('/');
+                    if (lastSlashIndex !== -1 && lastSlashIndex < url.length - 1) {
+                        const filename = url.substring(lastSlashIndex + 1);
+                        const domain = url.substring(0, Math.min(lastSlashIndex, 20));
+                        return `${domain}/.../${filename}`;
+                    }
+                }
+                // 如果无法解析，显示前30个字符
+                return url.length > 30 ? url.substring(0, 30) + '...' : url;
+            }
+        };
         
         // 核心转换逻辑
         class CCMZConverter {
@@ -511,9 +853,48 @@
             
             log(message, type = 'info') {
                 const timestamp = new Date().toLocaleTimeString();
+                
+                // 处理包含URL的消息 - 简化显示
+                let displayMessage = message;
+                
+                // 检查消息中是否包含URL
+                const urlRegex = /https?:\/\/[^\s]+/g;
+                const urls = message.match(urlRegex);
+                
+                if (urls && urls.length > 0) {
+                    // 找到第一个URL并简化
+                    const fullURL = urls[0];
+                    const shortURL = URLUtils.formatForLog(fullURL);
+                    
+                    // 替换为简化版本
+                    displayMessage = message.replace(fullURL, shortURL);
+                }
+                
+                // 过滤掉不需要显示的日志
+                const filteredMessages = [
+                    '使用版本2解密（奇偶转换）...',
+                    '找到音乐数据文件',
+                    '📦 找到',
+                    '🎯 找到音乐数据文件'
+                ];
+                
+                // 检查是否是需要过滤的日志
+                let shouldLog = true;
+                for (const filteredMsg of filteredMessages) {
+                    if (displayMessage.includes(filteredMsg)) {
+                        shouldLog = false;
+                        break;
+                    }
+                }
+                
+                if (!shouldLog) {
+                    return; // 不记录这条日志
+                }
+                
                 const logEntry = {
                     time: timestamp,
                     message: message,
+                    displayMessage: displayMessage,
                     type: type
                 };
                 
@@ -528,8 +909,11 @@
                 if (!statusContent) return;
                 
                 let html = '';
-                for (const entry of this.statusLog.slice(-30)) {
-                    html += `<div class="log-entry log-${entry.type}">[${entry.time}] ${entry.message}</div>`;
+                const recentLogs = this.statusLog.slice(-30); // 桌面端显示更多日志
+                
+                for (const entry of recentLogs) {
+                    const displayMsg = entry.displayMessage || entry.message;
+                    html += `<div class="log-entry log-${entry.type}">[${entry.time}] ${displayMsg}</div>`;
                 }
                 
                 statusContent.innerHTML = html;
@@ -550,7 +934,9 @@
             }
             
             async downloadCCMZ(url) {
-                this.log(`正在从 ${url} 下载 CCMZ 文件...`, 'info');
+                // 在日志中简化URL显示
+                const shortURL = URLUtils.formatForLog(url);
+                this.log(`正在从 ${shortURL} 下载 CCMZ 文件...`, 'info');
                 this.updateProgress(10, '开始下载文件...');
                 
                 try {
@@ -599,7 +985,8 @@
                         decrypted = remaining;
                     } else if (version === 2) {
                         // 版本2: 每个字节奇偶性转换
-                        this.log('🔓 使用版本2解密（奇偶转换）...', 'info');
+                        // 移除详细日志，只记录解密完成
+                        this.log('🔓 解密CCMZ文件...', 'info');
                         decrypted = new Uint8Array(remaining.length);
                         
                         for (let i = 0; i < remaining.length; i++) {
@@ -636,7 +1023,8 @@
                     const zip = await JSZip.loadAsync(zipData);
                     const files = Object.keys(zip.files);
                     
-                    this.log(`📦 找到 ${files.length} 个文件`, 'info');
+                    // 移除文件数量日志
+                    // this.log(`📦 找到 ${files.length} 个文件`, 'info');
                     
                     let jsonData = null;
                     
@@ -652,7 +1040,8 @@
                         if (filename.toLowerCase() === 'midi.json') {
                             try {
                                 jsonData = await file.async('text');
-                                this.log(`🎯 找到音乐数据文件`, 'success');
+                                // 移除找到文件日志
+                                // this.log(`🎯 找到音乐数据文件`, 'success');
                                 break;
                             } catch (e) {
                                 this.log(`❌ 读取文件失败: ${e.message}`, 'error');
@@ -1044,7 +1433,7 @@
                 // 添加轨道结束事件
                 events.push({
                     deltaTime: 0,
-                    type: 'endOfTrack'
+                                    type: 'endOfTrack'
                 });
                 
                 // 编码轨道数据
@@ -1288,9 +1677,9 @@
                 if (this.files.length > 0) {
                     const fileName = this.files[0].name;
                     fileInputLabel.innerHTML = `
-                        <i class="fas fa-file-music" style="color: #4cc9f0;"></i>
+                        <i class="fas fa-file-music" style="color: var(--primary);"></i>
                         <span>已选择文件: ${fileName}</span>
-                        <div style="margin-top: 10px; font-size: 0.9rem;">点击重新选择</div>
+                        <div style="margin-top: var(--space-xs); font-size: var(--font-size-xs);">点击重新选择</div>
                     `;
                     fileInputLabel.classList.add('file-selected');
                 }
@@ -1299,19 +1688,19 @@
             // 拖放事件
             fileInputLabel.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                this.style.borderColor = '#4361ee';
-                this.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+                this.style.borderColor = 'var(--primary)';
+                this.style.backgroundColor = 'var(--primary-container)';
             });
             
             fileInputLabel.addEventListener('dragleave', function(e) {
                 e.preventDefault();
-                this.style.borderColor = '#ddd';
+                this.style.borderColor = 'var(--outline)';
                 this.style.backgroundColor = '';
             });
             
             fileInputLabel.addEventListener('drop', function(e) {
                 e.preventDefault();
-                this.style.borderColor = '#ddd';
+                this.style.borderColor = 'var(--outline)';
                 this.style.backgroundColor = '';
                 
                 if (e.dataTransfer.files.length > 0) {
@@ -1392,6 +1781,25 @@
             document.getElementById('clear-log-btn').addEventListener('click', function() {
                 converter.statusLog = [];
                 converter.updateStatusDisplay();
+            });
+            
+            // 复制日志
+            document.getElementById('copy-log-btn').addEventListener('click', function() {
+                const statusContent = document.getElementById('status-content');
+                if (statusContent) {
+                    // 获取纯文本日志
+                    const logEntries = Array.from(statusContent.querySelectorAll('.log-entry'));
+                    const logText = logEntries.map(entry => entry.textContent).join('\n');
+                    
+                    navigator.clipboard.writeText(logText)
+                        .then(() => {
+                            alert('日志已复制到剪贴板');
+                        })
+                        .catch(err => {
+                            console.error('复制失败:', err);
+                            alert('复制失败，请手动选择并复制');
+                        });
+                }
             });
             
             // 初始化日志显示
